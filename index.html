@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>모둠 변환기</title>
+  <title>이름 변환기</title>
   <style>
     * {
       box-sizing: border-box;
@@ -237,45 +237,16 @@
 </head>
 <body>
 
-  <h1 class="site-title">✨ 모둠 변환기</h1>
+  <h1 class="site-title">✨ 이름 변환기</h1>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('npc')">📝 NPC/PC 변환기</button>
-    <button class="tab-btn" onclick="switchTab('swap')">🔄 User/Char 교체기</button>
+    <button class="tab-btn active" onclick="switchTab('swap')">🔄 User/Char 교체기</button>
     <button class="tab-btn" onclick="switchTab('custom')">⚙️ 커스텀 변환기</button>
-  </div>
-
-  <!-- NPC/PC 변환기 -->
-  <div id="tab-npc" class="tab-content active">
-    <div class="card">
-      <h2>📝 NPC/PC 변환기</h2>
-      <div class="rule-badge">변환 규칙: NPC → {{char}} | PC → {{user}}</div>
-
-      <label>원본 텍스트:</label>
-      <textarea id="npc-input" placeholder="변환할 텍스트를 입력하세요..."></textarea>
-
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="convertNPC()">🔄 변환하기</button>
-        <button class="btn btn-danger" onclick="clearNPC()">🗑️ 지우기</button>
-      </div>
-
-      <label>변환된 텍스트:</label>
-      <textarea id="npc-output" readonly placeholder="변환 결과가 여기에 표시됩니다..."></textarea>
-
-      <div class="btn-row">
-        <button class="btn btn-copy" onclick="copyText('npc-output')">📋 복사하기</button>
-      </div>
-
-      <div class="stats">
-        <div class="stat-item">NPC: <span id="npc-count-npc">0</span>개</div>
-        <div class="stat-item">PC: <span id="npc-count-pc">0</span>개</div>
-        <div class="stat-item">총: <span id="npc-count-total">0</span>개</div>
-      </div>
-    </div>
+    <button class="tab-btn" onclick="switchTab('npc')">📝 NPC/PC 변환기</button>
   </div>
 
   <!-- User/Char 교체기 -->
-  <div id="tab-swap" class="tab-content">
+  <div id="tab-swap" class="tab-content active">
     <div class="card">
       <h2>🔄 User/Char 교체기</h2>
       <div class="rule-badge">교체 규칙: {{user}} ↔ {{char}} 위치 서로 바꾸기</div>
@@ -312,11 +283,11 @@
       <div class="custom-inputs">
         <div>
           <label>변환할 단어 (A):</label>
-          <input type="text" id="custom-a" placeholder="원래 단어 A" />
+          <input type="text" id="custom-a" placeholder="원래 단어 A" value="{{char}}" />
         </div>
         <div>
           <label>변환될 단어 (B):</label>
-          <input type="text" id="custom-b" placeholder="바꿀 단어 B" />
+          <input type="text" id="custom-b" placeholder="바꿀 단어 B" value="Danwoo, Kashimir" />
         </div>
         <div>
           <label>변환할 단어 (C):</label>
@@ -347,6 +318,35 @@
         <div class="stat-item">1세트: <span id="custom-count-ab">0</span>개</div>
         <div class="stat-item">2세트: <span id="custom-count-cd">0</span>개</div>
         <div class="stat-item">총: <span id="custom-count-total">0</span>개</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NPC/PC 변환기 -->
+  <div id="tab-npc" class="tab-content">
+    <div class="card">
+      <h2>📝 NPC/PC 변환기</h2>
+      <div class="rule-badge">변환 규칙: NPC → {{char}} | PC → {{user}}</div>
+
+      <label>원본 텍스트:</label>
+      <textarea id="npc-input" placeholder="변환할 텍스트를 입력하세요..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="convertNPC()">🔄 변환하기</button>
+        <button class="btn btn-danger" onclick="clearNPC()">🗑️ 지우기</button>
+      </div>
+
+      <label>변환된 텍스트:</label>
+      <textarea id="npc-output" readonly placeholder="변환 결과가 여기에 표시됩니다..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-copy" onclick="copyText('npc-output')">📋 복사하기</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">NPC: <span id="npc-count-npc">0</span>개</div>
+        <div class="stat-item">PC: <span id="npc-count-pc">0</span>개</div>
+        <div class="stat-item">총: <span id="npc-count-total">0</span>개</div>
       </div>
     </div>
   </div>
