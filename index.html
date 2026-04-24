@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>모둠 변환기</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: #f4f6fb;
+      color: #1e293b;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    h1.site-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #6d28d9;
+      text-shadow: none;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 10px 22px;
+      background: #ffffff;
+      border: 2px solid #c4b5fd;
+      border-radius: 8px;
+      color: #6d28d9;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      background: #ede9fe;
+      border-color: #7c3aed;
+    }
+
+    .tab-btn.active {
+      background: #7c3aed;
+      border-color: #7c3aed;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .tab-content {
+      display: none;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #ddd6fe;
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px #7c3aed11;
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      color: #6d28d9;
+      margin-bottom: 6px;
+    }
+
+    .rule-badge {
+      display: inline-block;
+      background: #ede9fe;
+      border: 1px solid #c4b5fd;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.85rem;
+      color: #5b21b6;
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      color: #1e293b;
+      font-size: 0.97rem;
+      padding: 10px 12px;
+      resize: vertical;
+      outline: none;
+      transition: border 0.2s;
+      font-family: inherit;
+    }
+
+    textarea:focus {
+      border-color: #7c3aed;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin: 14px 0;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 9px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.18s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #6d28d9, #5b21b6);
+    }
+
+    .btn-danger {
+      background: #fff0f0;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+    }
+
+    .btn-danger:hover {
+      background: #fee2e2;
+    }
+
+    .btn-copy {
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #93c5fd;
+    }
+
+    .btn-copy:hover {
+      background: #dbeafe;
+    }
+
+    .stats {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .stat-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px 16px;
+      font-size: 0.87rem;
+      color: #64748b;
+    }
+
+    .stat-item span {
+      color: #7c3aed;
+      font-weight: bold;
+    }
+
+    .custom-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .custom-inputs input {
+      width: 100%;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      color: #1e293b;
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      outline: none;
+      transition: border 0.2s;
+      font-family: inherit;
+    }
+
+    .custom-inputs input:focus {
+      border-color: #7c3aed;
+    }
+
+    .custom-inputs label {
+      margin-bottom: 4px;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid #ddd6fe;
+      margin: 18px 0;
+    }
+
+    @media (max-width: 600px) {
+      .custom-inputs {
+        grid-template-columns: 1fr;
+      }
+      .tabs {
+        gap: 6px;
+      }
+      .tab-btn {
+        font-size: 0.9rem;
+        padding: 8px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="site-title">✨ 모둠 변환기</h1>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('npc')">📝 NPC/PC 변환기</button>
+    <button class="tab-btn" onclick="switchTab('swap')">🔄 User/Char 교체기</button>
+    <button class="tab-btn" onclick="switchTab('custom')">⚙️ 커스텀 변환기</button>
+  </div>
+
+  <!-- NPC/PC 변환기 -->
+  <div id="tab-npc" class="tab-content active">
+    <div class="card">
+      <h2>📝 NPC/PC 변환기</h2>
+      <div class="rule-badge">변환 규칙: NPC → {{char}} | PC → {{user}}</div>
+
+      <label>원본 텍스트:</label>
+      <textarea id="npc-input" placeholder="변환할 텍스트를 입력하세요..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="convertNPC()">🔄 변환하기</button>
+        <button class="btn btn-danger" onclick="clearNPC()">🗑️ 지우기</button>
+      </div>
+
+      <label>변환된 텍스트:</label>
+      <textarea id="npc-output" readonly placeholder="변환 결과가 여기에 표시됩니다..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-copy" onclick="copyText('npc-output')">📋 복사하기</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">NPC: <span id="npc-count-npc">0</span>개</div>
+        <div class="stat-item">PC: <span id="npc-count-pc">0</span>개</div>
+        <div class="stat-item">총: <span id="npc-count-total">0</span>개</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User/Char 교체기 -->
+  <div id="tab-swap" class="tab-content">
+    <div class="card">
+      <h2>🔄 User/Char 교체기</h2>
+      <div class="rule-badge">교체 규칙: {{user}} ↔ {{char}} 위치 서로 바꾸기</div>
+
+      <label>원본 텍스트:</label>
+      <textarea id="swap-input" placeholder="교체할 텍스트를 입력하세요..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="convertSwap()">🔁 교체하기</button>
+        <button class="btn btn-danger" onclick="clearSwap()">🗑️ 지우기</button>
+      </div>
+
+      <label>교체된 텍스트:</label>
+      <textarea id="swap-output" readonly placeholder="교체 결과가 여기에 표시됩니다..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-copy" onclick="copyText('swap-output')">📋 복사하기</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">{{user}}→{{char}}: <span id="swap-count-a">0</span>개</div>
+        <div class="stat-item">{{char}}→{{user}}: <span id="swap-count-b">0</span>개</div>
+        <div class="stat-item">총: <span id="swap-count-total">0</span>개</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 커스텀 변환기 -->
+  <div id="tab-custom" class="tab-content">
+    <div class="card">
+      <h2>⚙️ 커스텀 변환기</h2>
+      <div class="rule-badge">커스텀 규칙: A→B, C→D 동시 변환</div>
+
+      <div class="custom-inputs">
+        <div>
+          <label>변환할 단어 (A):</label>
+          <input type="text" id="custom-a" placeholder="원래 단어 A" />
+        </div>
+        <div>
+          <label>변환될 단어 (B):</label>
+          <input type="text" id="custom-b" placeholder="바꿀 단어 B" />
+        </div>
+        <div>
+          <label>변환할 단어 (C):</label>
+          <input type="text" id="custom-c" placeholder="원래 단어 C" />
+        </div>
+        <div>
+          <label>변환될 단어 (D):</label>
+          <input type="text" id="custom-d" placeholder="바꿀 단어 D" />
+        </div>
+      </div>
+
+      <label>원본 텍스트:</label>
+      <textarea id="custom-input" placeholder="변환할 텍스트를 입력하세요..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="convertCustom()">🛠️ 변환하기</button>
+        <button class="btn btn-danger" onclick="clearCustom()">🗑️ 지우기</button>
+      </div>
+
+      <label>변환된 텍스트:</label>
+      <textarea id="custom-output" readonly placeholder="변환 결과가 여기에 표시됩니다..."></textarea>
+
+      <div class="btn-row">
+        <button class="btn btn-copy" onclick="copyText('custom-output')">📋 복사하기</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">1세트: <span id="custom-count-ab">0</span>개</div>
+        <div class="stat-item">2세트: <span id="custom-count-cd">0</span>개</div>
+        <div class="stat-item">총: <span id="custom-count-total">0</span>개</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- 탭 전환 ---
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // --- 클립보드 복사 ---
+    function copyText(id) {
+      const el = document.getElementById(id);
+      if (!el.value) return;
+      navigator.clipboard.writeText(el.value).then(() => {
+        const btn = event.currentTarget;
+        const orig = btn.textContent;
+        btn.textContent = '✅ 복사됨!';
+        setTimeout(() => btn.textContent = orig, 1500);
+      });
+    }
+
+    // ===== NPC/PC 변환기 =====
+    function countOccurrences(text, word) {
+      const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return (text.match(new RegExp(escaped, 'g')) || []).length;
+    }
+
+    function countOccurrencesCI(text, word) {
+      const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return (text.match(new RegExp(escaped, 'gi')) || []).length;
+    }
+
+    function convertNPC() {
+      const input = document.getElementById('npc-input').value;
+      if (!input.trim()) return;
+
+      const npcCount = countOccurrencesCI(input, 'NPC');
+      const pcCount = countOccurrencesCI(input, 'PC') - npcCount;
+
+      // 대소문자 무시, NPC 먼저 플레이스홀더로 처리 후 PC 변환
+      let result = input
+        .replace(/NPC/gi, '\x00CHAR\x00')
+        .replace(/PC/gi, '{{user}}')
+        .replace(/\x00CHAR\x00/g, '{{char}}');
+
+      document.getElementById('npc-output').value = result;
+      document.getElementById('npc-count-npc').textContent = npcCount;
+      document.getElementById('npc-count-pc').textContent = pcCount;
+      document.getElementById('npc-count-total').textContent = npcCount + pcCount;
+    }
+
+    function clearNPC() {
+      document.getElementById('npc-input').value = '';
+      document.getElementById('npc-output').value = '';
+      document.getElementById('npc-count-npc').textContent = '0';
+      document.getElementById('npc-count-pc').textContent = '0';
+      document.getElementById('npc-count-total').textContent = '0';
+    }
+
+    // ===== User/Char 교체기 =====
+    function convertSwap() {
+      const input = document.getElementById('swap-input').value;
+      if (!input.trim()) return;
+
+      const userCount = countOccurrencesCI(input, '{{user}}');
+      const charCount = countOccurrencesCI(input, '{{char}}');
+
+      // 플레이스홀더로 동시 교체
+      let result = input
+        .replace(/\{\{user\}\}/g, '\x00USER\x00')
+        .replace(/\{\{char\}\}/g, '{{user}}')
+        .replace(/\x00USER\x00/g, '{{char}}');
+
+      document.getElementById('swap-output').value = result;
+      document.getElementById('swap-count-a').textContent = userCount;
+      document.getElementById('swap-count-b').textContent = charCount;
+      document.getElementById('swap-count-total').textContent = userCount + charCount;
+    }
+
+    function clearSwap() {
+      document.getElementById('swap-input').value = '';
+      document.getElementById('swap-output').value = '';
+      document.getElementById('swap-count-a').textContent = '0';
+      document.getElementById('swap-count-b').textContent = '0';
+      document.getElementById('swap-count-total').textContent = '0';
+    }
+
+    // ===== 커스텀 변환기 =====
+    function convertCustom() {
+      const input = document.getElementById('custom-input').value;
+      const a = document.getElementById('custom-a').value;
+      const b = document.getElementById('custom-b').value;
+      const c = document.getElementById('custom-c').value;
+      const d = document.getElementById('custom-d').value;
+
+      if (!input.trim()) return;
+
+      let result = input;
+      let abCount = 0;
+      let cdCount = 0;
+
+      // A→B 변환 (대소문자 무시)
+      if (a) {
+        const escapedA = a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        abCount = (result.match(new RegExp(escapedA, 'gi')) || []).length;
+        result = result.replace(new RegExp(escapedA, 'gi'), '\x00AB\x00');
+      }
+
+      // C→D 변환 (대소문자 무시)
+      if (c) {
+        const escapedC = c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        cdCount = (result.match(new RegExp(escapedC, 'gi')) || []).length;
+        result = result.replace(new RegExp(escapedC, 'gi'), '\x00CD\x00');
+      }
+
+      // 플레이스홀더 치환
+      if (a) result = result.replace(/\x00AB\x00/g, b || '');
+      if (c) result = result.replace(/\x00CD\x00/g, d || '');
+
+      document.getElementById('custom-output').value = result;
+      document.getElementById('custom-count-ab').textContent = abCount;
+      document.getElementById('custom-count-cd').textContent = cdCount;
+      document.getElementById('custom-count-total').textContent = abCount + cdCount;
+    }
+
+    function clearCustom() {
+      document.getElementById('custom-input').value = '';
+      document.getElementById('custom-output').value = '';
+      document.getElementById('custom-a').value = '';
+      document.getElementById('custom-b').value = '';
+      document.getElementById('custom-c').value = '';
+      document.getElementById('custom-d').value = '';
+      document.getElementById('custom-count-ab').textContent = '0';
+      document.getElementById('custom-count-cd').textContent = '0';
+      document.getElementById('custom-count-total').textContent = '0';
+    }
+  </script>
+</body>
+</html>
