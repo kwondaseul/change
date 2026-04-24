@@ -237,18 +237,18 @@
 </head>
 <body>
 
-  <h1 class="site-title">✨ 이름 교체</h1>
+  <h1 class="site-title">💚 이름 교체 💛</h1>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('swap')">🔄 User/Char 교체</button>
-    <button class="tab-btn" onclick="switchTab('custom')">⚙️ 커스텀 교체</button>
-    <button class="tab-btn" onclick="switchTab('npc')">📝 NPC/PC 교체</button>
+    <button class="tab-btn active" onclick="switchTab('swap')">🔄 User/Char</button>
+    <button class="tab-btn" onclick="switchTab('custom')">⚙️ 커스텀</button>
+    <button class="tab-btn" onclick="switchTab('npc')">📝 NPC/PC</button>
   </div>
 
-  <!-- User/Char 교체 -->
+  <!-- User/Char -->
   <div id="tab-swap" class="tab-content active">
     <div class="card">
-      <h2>🔄 User/Char 교체</h2>
+      <h2>🔄 User/Char</h2>
       <div class="rule-badge">교체 규칙: {{user}} ↔ {{char}} 위치 서로 바꾸기</div>
 
       <label>원본 텍스트:</label>
@@ -275,9 +275,10 @@
   </div>
 
   <!-- 커스텀 교체 -->
+  <!-- 커스텀 -->
   <div id="tab-custom" class="tab-content">
     <div class="card">
-      <h2>⚙️ 커스텀 교체</h2>
+      <h2>⚙️ 커스텀</h2>
       <div class="rule-badge">커스텀 규칙: A→B, C→D 동시 변환</div>
 
       <div class="custom-inputs">
@@ -322,10 +323,10 @@
     </div>
   </div>
 
-  <!-- NPC/PC 교체 -->
+  <!-- NPC/PC -->
   <div id="tab-npc" class="tab-content">
     <div class="card">
-      <h2>📝 NPC/PC 교체</h2>
+      <h2>📝 NPC/PC</h2>
       <div class="rule-badge">변환 규칙: NPC → {{char}} | PC → {{user}}</div>
 
       <label>원본 텍스트:</label>
