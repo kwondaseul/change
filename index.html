@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>이름 변환기</title>
+  <title>이름 교체</title>
   <style>
     * {
       box-sizing: border-box;
@@ -237,22 +237,22 @@
 </head>
 <body>
 
-  <h1 class="site-title">✨ 이름 변환기</h1>
+  <h1 class="site-title">✨ 이름 교체</h1>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('swap')">🔄 User/Char 교체기</button>
-    <button class="tab-btn" onclick="switchTab('custom')">⚙️ 커스텀 변환기</button>
-    <button class="tab-btn" onclick="switchTab('npc')">📝 NPC/PC 변환기</button>
+    <button class="tab-btn active" onclick="switchTab('swap')">🔄 User/Char 교체</button>
+    <button class="tab-btn" onclick="switchTab('custom')">⚙️ 커스텀 교체</button>
+    <button class="tab-btn" onclick="switchTab('npc')">📝 NPC/PC 교체</button>
   </div>
 
-  <!-- User/Char 교체기 -->
+  <!-- User/Char 교체 -->
   <div id="tab-swap" class="tab-content active">
     <div class="card">
-      <h2>🔄 User/Char 교체기</h2>
+      <h2>🔄 User/Char 교체</h2>
       <div class="rule-badge">교체 규칙: {{user}} ↔ {{char}} 위치 서로 바꾸기</div>
 
       <label>원본 텍스트:</label>
-      <textarea id="swap-input" placeholder="교체할 텍스트를 입력하세요..."></textarea>
+      <textarea id="swap-input" placeholder="교체할 텍스트를 입력하세요..." oninput="convertSwap()"></textarea>
 
       <div class="btn-row">
         <button class="btn btn-primary" onclick="convertSwap()">🔁 교체하기</button>
@@ -274,33 +274,33 @@
     </div>
   </div>
 
-  <!-- 커스텀 변환기 -->
+  <!-- 커스텀 교체 -->
   <div id="tab-custom" class="tab-content">
     <div class="card">
-      <h2>⚙️ 커스텀 변환기</h2>
+      <h2>⚙️ 커스텀 교체</h2>
       <div class="rule-badge">커스텀 규칙: A→B, C→D 동시 변환</div>
 
       <div class="custom-inputs">
         <div>
           <label>변환할 단어 (A):</label>
-          <input type="text" id="custom-a" placeholder="원래 단어 A" value="{{char}}" />
+          <input type="text" id="custom-a" placeholder="원래 단어 A" value="{{char}}" oninput="convertCustom()" />
         </div>
         <div>
           <label>변환될 단어 (B):</label>
-          <input type="text" id="custom-b" placeholder="바꿀 단어 B" value="Danwoo, Kashimir" />
+          <input type="text" id="custom-b" placeholder="바꿀 단어 B" value="Danwoo, Kashimir" oninput="convertCustom()" />
         </div>
         <div>
           <label>변환할 단어 (C):</label>
-          <input type="text" id="custom-c" placeholder="원래 단어 C" />
+          <input type="text" id="custom-c" placeholder="원래 단어 C" oninput="convertCustom()" />
         </div>
         <div>
           <label>변환될 단어 (D):</label>
-          <input type="text" id="custom-d" placeholder="바꿀 단어 D" />
+          <input type="text" id="custom-d" placeholder="바꿀 단어 D" oninput="convertCustom()" />
         </div>
       </div>
 
       <label>원본 텍스트:</label>
-      <textarea id="custom-input" placeholder="변환할 텍스트를 입력하세요..."></textarea>
+      <textarea id="custom-input" placeholder="변환할 텍스트를 입력하세요..." oninput="convertCustom()"></textarea>
 
       <div class="btn-row">
         <button class="btn btn-primary" onclick="convertCustom()">🛠️ 변환하기</button>
@@ -322,14 +322,14 @@
     </div>
   </div>
 
-  <!-- NPC/PC 변환기 -->
+  <!-- NPC/PC 교체 -->
   <div id="tab-npc" class="tab-content">
     <div class="card">
-      <h2>📝 NPC/PC 변환기</h2>
+      <h2>📝 NPC/PC 교체</h2>
       <div class="rule-badge">변환 규칙: NPC → {{char}} | PC → {{user}}</div>
 
       <label>원본 텍스트:</label>
-      <textarea id="npc-input" placeholder="변환할 텍스트를 입력하세요..."></textarea>
+      <textarea id="npc-input" placeholder="변환할 텍스트를 입력하세요..." oninput="convertNPC()"></textarea>
 
       <div class="btn-row">
         <button class="btn btn-primary" onclick="convertNPC()">🔄 변환하기</button>
